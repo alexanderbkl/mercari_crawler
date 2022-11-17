@@ -4,6 +4,7 @@ import random
 import os
 import traceback
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -37,7 +38,7 @@ def get_scrapper_driver():
     #Iniciar navegador habitual (las cookies se pueden utilizar tal cual)
     #driver = webdriver.Chrome(options=op)
     
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=op)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=op)
 
     return driver
 
