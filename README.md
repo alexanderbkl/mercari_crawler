@@ -24,7 +24,7 @@ $python3 main.py
 
 To create executable:
 
-$pip3 install PyInstaller
+
 $python -m PyInstaller --onefile --uac-admin main.py
 
 
