@@ -39,9 +39,11 @@ def get_scrapper_driver():
     op.add_argument("--proxy-bypass-list=*")
     op.add_argument("--start-maximized")
     op.add_argument('headless')
-    # op.add_argument("--headless")
+    op.add_argument("--log-level=3")
     # op.add_argument('--user-agent=hogehoge')
+    
     #Iniciar navegador habitual (las cookies se pueden utilizar tal cual)
+    
     #driver = webdriver.Chrome(options=op)
     
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=op)

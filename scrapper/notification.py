@@ -114,8 +114,7 @@ def notify(item_url, name, price, description, TRANS_LANG, INTEREST_RATE, PRODUC
     url: {url}
     name: {name}
     price: {price}
-    description: {description}
-    """.format(url=item_url, name=name, item_url = item_url, price = eur_price, description = description)
+    """.format(url=item_url, name=name, item_url = item_url, price = eur_price)
     send_line_notify(message)
     
     #Create a products list csv file if it doesn't exist and with the rows of the products. If it exists, just add the new product to the csv file.

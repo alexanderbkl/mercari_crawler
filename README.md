@@ -23,6 +23,7 @@ To create executable:
 
 $python -m PyInstaller --onefile --uac-admin main.py
 
+main.exe gets created at ./dist
 
 Language codes:
 {
