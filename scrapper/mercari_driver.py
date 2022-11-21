@@ -16,7 +16,13 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from .m_configs import GET_NEXT_BUTTON_SCRIPT,\
                     MERCARI_DEFAULT_URL,\
-                    GET_ITEM_NAME, GET_ITEM_PRICE, GET_ITEM_DESCRIPTION, QUANTITY, GET_ITEM_SOLD
+                    GET_ITEM_NAME, GET_ITEM_PRICE, GET_ITEM_DESCRIPTION, GET_ITEM_SOLD
+                    
+from .input import Input
+
+input_class = Input()
+
+QUANTITY = input_class.get_QUANTITY()
                     
 
 exec_file_name =  os.path.basename(__file__)[:-3]
@@ -51,7 +57,14 @@ class MercariDriver():
 
     def __init__(self, driver):
         self.driver = driver
-
+        
+        
+    def move_page(self, url):
+        self.driver.get(url)
+        WebDriverWait(self.driver, 30).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "body"))
+        )
+        custom_time_sleep()
 
     def get_items_url(self, url=None, page=1, quantity=QUANTITY):
         url_list = []

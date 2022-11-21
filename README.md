@@ -10,7 +10,7 @@ $pip install -r requirements.txt
 
 
 
-Execute:
+Execute on terminal (as administrator):
 
 $python3 main.py
 

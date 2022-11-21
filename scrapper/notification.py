@@ -4,12 +4,16 @@ import csv
 import os
 import io
 from googletrans import Translator
-from .m_configs import PRODUCT_CATEGORY, trans_lang, INTEREST_RATE
-
+#from .input import PRODUCT_CATEGORY, trans_lang, INTEREST_RATE
+from .input import Input
 translator = Translator()
 
+input_class = Input()
 
-def notify(item_url, name, price, description):
+
+
+
+def notify(item_url, name, price, description, TRANS_LANG, INTEREST_RATE, PRODUCT_CATEGORY):
     #transform interest rate from percentage to decimal
     # f.e. INTEREST_RATE is 50, interest should be 1.5
     interest = INTEREST_RATE / 100 + 1
@@ -54,8 +58,8 @@ def notify(item_url, name, price, description):
     
     try:
         #translate from japanese to english
-        name = translator.translate(name, dest=trans_lang).text
-        description = translator.translate(description, dest=trans_lang).text
+        name = translator.translate(name, dest=TRANS_LANG).text
+        description = translator.translate(description, dest=TRANS_LANG).text
 
 
         #replace all double quotes with single quotes
