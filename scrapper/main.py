@@ -1,4 +1,4 @@
-from scrapper.notification import notify
+from .notification import notify
 from .mercari_driver import MercariDriver, get_scrapper_driver
 from .m_configs import  MERCARI_IT_BOOK_URL, QUANTITY
 
@@ -7,7 +7,7 @@ def main(main_url=MERCARI_IT_BOOK_URL, quantity=QUANTITY):
     driver = get_scrapper_driver()
     m_scrapper = MercariDriver(driver)
 
-    m_scrapper.move_page(main_url)
+
     latest_item_url_list = m_scrapper.get_items_url(quantity=quantity)
 
     for item_url in latest_item_url_list:

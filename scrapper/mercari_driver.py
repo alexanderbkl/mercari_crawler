@@ -52,12 +52,6 @@ class MercariDriver():
     def __init__(self, driver):
         self.driver = driver
 
-    def move_page(self, url):
-        self.driver.get(url)
-        WebDriverWait(self.driver, 30).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "body"))
-        )
-        custom_time_sleep()
 
     def get_items_url(self, url=None, page=1, quantity=QUANTITY):
         url_list = []

@@ -4,3 +4,4 @@ selenium
 packager
 webdriver-manager
 PyInstaller
+bs4

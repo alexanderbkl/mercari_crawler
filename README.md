@@ -2,11 +2,7 @@
 
 To use:
 
-(Windows)
--Download Selenium
--Import chromedriver.exe from ./dist/webdrivers/chromedriver.exe into C:\\webdrivers
--Add C:\\webdrivers\chromedriver.exe into Environment Variable and/or have Google Chrome installed on the PC
-
+Have Google Chrome installed on your device
 
 #install dependencies
 
