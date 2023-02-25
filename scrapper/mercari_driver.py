@@ -16,7 +16,7 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from .m_configs import GET_NEXT_BUTTON_SCRIPT,\
                     MERCARI_DEFAULT_URL,\
-                    GET_ITEM_NAME, GET_ITEM_PRICE, GET_ITEM_DESCRIPTION, GET_ITEM_SOLD
+                    GET_ITEM_NAME, GET_ITEM_NAMEV2, GET_ITEM_PRICE, GET_ITEM_PRICEV2, GET_ITEM_DESCRIPTION, GET_ITEM_DESCRIPTIONV2, GET_ITEM_SOLD
                     
 from .input import Input
 
@@ -94,7 +94,7 @@ class MercariDriver():
             joined_url_list.append(absolute_url)
         return joined_url_list  
 
-   
+
     def get_next_button(self):
         next_button = self.driver.execute_script(GET_NEXT_BUTTON_SCRIPT)
         return next_button
@@ -106,11 +106,14 @@ class MercariDriver():
 
             except:
                 sold_exist = None
-
-            name = self.driver.execute_script(GET_ITEM_NAME)
-            price = self.driver.execute_script(GET_ITEM_PRICE)
-            description = self.driver.execute_script(GET_ITEM_DESCRIPTION)
-
+            try: 
+                name = self.driver.execute_script(GET_ITEM_NAME)
+                price = self.driver.execute_script(GET_ITEM_PRICE)
+                description = self.driver.execute_script(GET_ITEM_DESCRIPTION)
+            except:
+                name = self.driver.execute_script(GET_ITEM_NAMEV2)
+                price = self.driver.execute_script(GET_ITEM_PRICEV2)
+                description = self.driver.execute_script(GET_ITEM_DESCRIPTIONV2)
 
             #print("name: ", name)
             #print("price: ", price)
@@ -119,7 +122,7 @@ class MercariDriver():
             print(self.driver.current_url)
             print(traceback.print_exc())
             return (None, None, None)   
- 
+
         price = price.replace(",", "")
         price = int(price)
         #check if sold_exist is False
