@@ -122,7 +122,6 @@ def notify(item_url, name, price, description, TRANS_LANG, INTEREST_RATE, PRODUC
 
     if not os.path.exists('products.csv'):
         with io.open('products.csv', 'w', encoding="utf-8") as f:
-
             #writer = csv.writer(f, quoting=csv.QUOTE_NONE, quotechar=None, escapechar='\n')
             #prevent img_urls from breaking lines on each comma
             writer = csv.writer(f)

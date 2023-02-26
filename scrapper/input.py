@@ -34,7 +34,7 @@ class Input:
                 self.keyword = "nintendo"
             else:
                 break
-        self._MERCARI_URL = "https://jp.mercari.com/search/?keyword=" + self.keyword
+        self._MERCARI_URL = "https://jp.mercari.com/search?keyword=" + self.keyword
     def set_QUANTITY(self):
         # get a number input of quantity of products with error checks and default value of 10
         self._QUANTITY = 10

@@ -71,7 +71,7 @@ def main():
                             
 
                             
-                            MERCARI_URL = "https://jp.mercari.com/search/?keyword=" + row[0]
+                            MERCARI_URL = "https://jp.mercari.com/search?keyword=" + row[0]
                             QUANTITY = int(row[1])
                             PRODUCT_CATEGORY = row[2]
                             INTEREST_RATE = float(row[3])
@@ -88,7 +88,9 @@ def main():
                             
                                 m_scrapper.move_page(item_url)
                                 item_name, item_price, item_description = m_scrapper.get_name_and_price()
+
                                 if item_name is None or item_price is None or item_description is None:
+                                    print("No se ha podido obtener el nombre, precio o descripción del producto")
                                     continue
                                 
                                 notify(item_url, item_name, item_price, item_description, TRANS_LANG, INTEREST_RATE, PRODUCT_CATEGORY)
