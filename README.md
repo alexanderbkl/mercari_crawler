@@ -1,137 +1,127 @@
-# mercari Japan scrapper
+# Mercari Japan Crawler
 
-To use:
+A Selenium-based scraper for [jp.mercari.com](https://jp.mercari.com) that searches for products, translates their names and descriptions from Japanese, converts prices from JPY to EUR, and exports results to a WooCommerce-compatible CSV file.
 
-Have Google Chrome installed on your device
+## Features
 
-#install dependencies
+- Search Mercari Japan by keyword and scrape N product listings
+- Automatic translation of product names and descriptions via Google Translate
+- JPY → EUR price conversion with a configurable interest/markup rate
+- Exports product data (name, price, description, images, SKU, category) to `products.csv` ready for WooCommerce import
+- Two input modes: **interactive (manual)** or **batch via `input.csv`**
+- Can be packaged as a standalone Windows executable
 
-$pip install -r requirements.txt
+## Prerequisites
 
+- Python 3.8+
+- [Google Chrome](https://www.google.com/chrome/) installed on your system (ChromeDriver is managed automatically)
 
+## Installation
 
-Execute on terminal (as administrator):
+```bash
+pip install -r requirements.txt
+```
 
-$python3 main.py
+## Usage
 
--Select desired parameters
--products.csv will be generated in the same folder as the main.py or the executable
+Run as administrator (required for ChromeDriver on some systems):
 
+```bash
+python3 main.py
+```
 
-To create executable:
+You will be prompted to choose an input mode:
 
+```
+[1]: Manual input
+[2]: Batch input from input.csv
+```
 
-$python -m PyInstaller --onefile --uac-admin main.py
+### Mode 1 — Manual input
 
-main.exe gets created at ./dist
+The program will ask you for the following parameters interactively:
 
-Language codes:
-{
-    'af': 'afrikaans',
-    'sq': 'albanian',
-    'am': 'amharic',
-    'ar': 'arabic',
-    'hy': 'armenian',
-    'az': 'azerbaijani',
-    'eu': 'basque',
-    'be': 'belarusian',
-    'bn': 'bengali',
-    'bs': 'bosnian',
-    'bg': 'bulgarian',
-    'ca': 'catalan',
-    'ceb': 'cebuano',
-    'ny': 'chichewa',
-    'zh-cn': 'chinese (simplified)',
-    'zh-tw': 'chinese (traditional)',
-    'co': 'corsican',
-    'hr': 'croatian',
-    'cs': 'czech',
-    'da': 'danish',
-    'nl': 'dutch',
-    'en': 'english',
-    'eo': 'esperanto',
-    'et': 'estonian',
-    'tl': 'filipino',
-    'fi': 'finnish',
-    'fr': 'french',
-    'fy': 'frisian',
-    'gl': 'galician',
-    'ka': 'georgian',
-    'de': 'german',
-    'el': 'greek',
-    'gu': 'gujarati',
-    'ht': 'haitian creole',
-    'ha': 'hausa',
-    'haw': 'hawaiian',
-    'iw': 'hebrew',
-    'he': 'hebrew',
-    'hi': 'hindi',
-    'hmn': 'hmong',
-    'hu': 'hungarian',
-    'is': 'icelandic',
-    'ig': 'igbo',
-    'id': 'indonesian',
-    'ga': 'irish',
-    'it': 'italian',
-    'ja': 'japanese',
-    'jw': 'javanese',
-    'kn': 'kannada',
-    'kk': 'kazakh',
-    'km': 'khmer',
-    'ko': 'korean',
-    'ku': 'kurdish (kurmanji)',
-    'ky': 'kyrgyz',
-    'lo': 'lao',
-    'la': 'latin',
-    'lv': 'latvian',
-    'lt': 'lithuanian',
-    'lb': 'luxembourgish',
-    'mk': 'macedonian',
-    'mg': 'malagasy',
-    'ms': 'malay',
-    'ml': 'malayalam',
-    'mt': 'maltese',
-    'mi': 'maori',
-    'mr': 'marathi',
-    'mn': 'mongolian',
-    'my': 'myanmar (burmese)',
-    'ne': 'nepali',
-    'no': 'norwegian',
-    'or': 'odia',
-    'ps': 'pashto',
-    'fa': 'persian',
-    'pl': 'polish',
-    'pt': 'portuguese',
-    'pa': 'punjabi',
-    'ro': 'romanian',
-    'ru': 'russian',
-    'sm': 'samoan',
-    'gd': 'scots gaelic',
-    'sr': 'serbian',
-    'st': 'sesotho',
-    'sn': 'shona',
-    'sd': 'sindhi',
-    'si': 'sinhala',
-    'sk': 'slovak',
-    'sl': 'slovenian',
-    'so': 'somali',
-    'es': 'spanish',
-    'su': 'sundanese',
-    'sw': 'swahili',
-    'sv': 'swedish',
-    'tg': 'tajik',
-    'ta': 'tamil',
-    'te': 'telugu',
-    'th': 'thai',
-    'tr': 'turkish',
-    'uk': 'ukrainian',
-    'ur': 'urdu',
-    'ug': 'uyghur',
-    'uz': 'uzbek',
-    'vi': 'vietnamese',
-    'cy': 'welsh',
-    'xh': 'xhosa',
-    'yi': 'yiddish',
-    'yo': 'yoruba',
-    'zu': 'zulu',
-    }
+| Parameter | Description | Example |
+|---|---|---|
+| Keyword | Search term for Mercari Japan | `nintendo` |
+| Quantity | Number of products to scrape | `10` |
+| Category | WooCommerce category for the exported CSV | `Consolas y videojuegos>Nintendo` |
+| Interest rate | Markup percentage applied on top of the JPY→EUR conversion | `50` |
+| Target language | Language code for translation (see [Language codes](#language-codes)) | `en` |
+
+### Mode 2 — Batch input (`input.csv`)
+
+Edit the `input.csv` file in the project root. Each row defines one search job:
+
+```csv
+Palabra clave,Nº productos,Categoría,Porcentaje,Idioma
+Nintendo,2,Sega>Mark 3,70,en
+Sega Saturn,1,Sega>Saturn,70,en
+```
+
+| Column | Description |
+|---|---|
+| `Palabra clave` | Search keyword |
+| `Nº productos` | Number of products to scrape |
+| `Categoría` | WooCommerce product category |
+| `Porcentaje` | Interest/markup rate (%) |
+| `Idioma` | Target translation language code |
+
+## Output
+
+A `products.csv` file is created (or appended to) in the same directory as `main.py`. It is formatted for direct import into WooCommerce and includes the following columns:
+
+`Explicit URL`, `Type`, `Published`, `Is featured?`, `Visibility in catalog`, `Tax status`, `In stock?`, `Backorders allowed?`, `Sold individually?`, `Allow customer reviews?`, `Parent`, `Name`, `Regular price`, `Stock`, `url`, `Images`, `Description`, `SKU`, `Categories`
+
+> **Price formula:** `EUR price = (JPY price × 0.0068) × (1 + interest_rate / 100)`
+
+## Building a standalone executable (Windows)
+
+```bash
+python -m PyInstaller --onefile --uac-admin main.py
+```
+
+The resulting `main.exe` will be created in the `./dist` folder.
+
+## Language codes
+
+Use these codes for the **Idioma** / **Target language** field:
+
+| Code | Language | Code | Language | Code | Language |
+|---|---|---|---|---|---|
+| `af` | Afrikaans | `gu` | Gujarati | `pl` | Polish |
+| `sq` | Albanian | `ht` | Haitian Creole | `pt` | Portuguese |
+| `am` | Amharic | `ha` | Hausa | `pa` | Punjabi |
+| `ar` | Arabic | `haw` | Hawaiian | `ro` | Romanian |
+| `hy` | Armenian | `he` | Hebrew | `ru` | Russian |
+| `az` | Azerbaijani | `hi` | Hindi | `sm` | Samoan |
+| `eu` | Basque | `hmn` | Hmong | `gd` | Scots Gaelic |
+| `be` | Belarusian | `hu` | Hungarian | `sr` | Serbian |
+| `bn` | Bengali | `is` | Icelandic | `st` | Sesotho |
+| `bs` | Bosnian | `ig` | Igbo | `sn` | Shona |
+| `bg` | Bulgarian | `id` | Indonesian | `sd` | Sindhi |
+| `ca` | Catalan | `ga` | Irish | `si` | Sinhala |
+| `ceb` | Cebuano | `it` | Italian | `sk` | Slovak |
+| `ny` | Chichewa | `ja` | Japanese | `sl` | Slovenian |
+| `zh-cn` | Chinese (Simplified) | `jw` | Javanese | `so` | Somali |
+| `zh-tw` | Chinese (Traditional) | `kn` | Kannada | `es` | Spanish |
+| `co` | Corsican | `kk` | Kazakh | `su` | Sundanese |
+| `hr` | Croatian | `km` | Khmer | `sw` | Swahili |
+| `cs` | Czech | `ko` | Korean | `sv` | Swedish |
+| `da` | Danish | `ku` | Kurdish (Kurmanji) | `tg` | Tajik |
+| `nl` | Dutch | `ky` | Kyrgyz | `ta` | Tamil |
+| `en` | English | `lo` | Lao | `te` | Telugu |
+| `eo` | Esperanto | `la` | Latin | `th` | Thai |
+| `et` | Estonian | `lv` | Latvian | `tr` | Turkish |
+| `tl` | Filipino | `lt` | Lithuanian | `uk` | Ukrainian |
+| `fi` | Finnish | `lb` | Luxembourgish | `ur` | Urdu |
+| `fr` | French | `mk` | Macedonian | `ug` | Uyghur |
+| `fy` | Frisian | `mg` | Malagasy | `uz` | Uzbek |
+| `gl` | Galician | `ms` | Malay | `vi` | Vietnamese |
+| `ka` | Georgian | `ml` | Malayalam | `cy` | Welsh |
+| `de` | German | `mt` | Maltese | `xh` | Xhosa |
+| `el` | Greek | `mi` | Maori | `yi` | Yiddish |
+| `mr` | Marathi | `mn` | Mongolian | `yo` | Yoruba |
+| `my` | Myanmar (Burmese) | `ne` | Nepali | `zu` | Zulu |
+| `no` | Norwegian | `or` | Odia | `ps` | Pashto |
+| `fa` | Persian | | | | |
